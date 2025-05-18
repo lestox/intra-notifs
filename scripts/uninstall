@@ -1,0 +1,8 @@
+#! /bin/sh
+
+docker stop intra-alerting
+
+docker rm intra-alerting
+
+docker rmi alerting:python
+

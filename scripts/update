@@ -1,0 +1,12 @@
+#! /bin/sh
+
+docker stop intra-alerting
+docker rm intra-alerting
+
+docker rmi intra-alerting:python
+docker build -t intra-alerting:python .
+
+# docker pull intra-alerting:python
+
+docker run -d --name intra-alerting intra-alerting:python
+docker logs intra-alerting
