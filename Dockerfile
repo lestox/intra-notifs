@@ -7,6 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN chmod +x /app/run.sh /app/refresh_cookie.sh
-
-CMD ["./run.sh"]
+CMD ["python", "run.py"]

@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
-docker build -t intra-alerting:python .
-docker run --restart=always -d --name intra-alerting intra-alerting:python
+docker build -t intra-notifs:python .
+docker run --restart=always -d --name intra-notifs intra-notifs:python
