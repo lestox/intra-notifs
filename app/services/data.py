@@ -1,10 +1,8 @@
 import requests
 
-def get_data(url, cookie):
-    headers = {
-        "Cookie": cookie,
-        "User-Agent": "curl/7.81.0"
-    }
+
+def get_data(url: str, cookie: str) -> list[dict]:
+    headers = {"Cookie": cookie, "User-Agent": "curl/7.81.0"}
 
     response = requests.get(url, headers=headers)
 

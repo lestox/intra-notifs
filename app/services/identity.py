@@ -1,19 +1,27 @@
 import subprocess
 import json
 import re
-from constants.auth import auth
+from app.constants.auth import auth
+
 
 def authenticate():
-    credentials_json = json.dumps({
-        "login": auth["login"],
-        "password": auth["password"]
-    })
+    credentials_json = json.dumps(
+        {"login": auth["login"], "password": auth["password"]}
+    )
 
     curl_cmd = [
-        "curl", "-i", "-s", "-X", "POST", auth['url'] + "/identity",
-        "-H", "Content-Type: application/json",
-        "-A", "curl/8.13.0",
-        "-d", credentials_json
+        "curl",
+        "-i",
+        "-s",
+        "-X",
+        "POST",
+        auth["url"] + "/identity",
+        "-H",
+        "Content-Type: application/json",
+        "-A",
+        "curl/8.13.0",
+        "-d",
+        credentials_json,
     ]
 
     try:
@@ -24,7 +32,9 @@ def authenticate():
     split_marker = "\r\n\r\n" if "\r\n\r\n" in result else "\n\n"
     headers_part, body_part = result.split(split_marker, 1)
 
-    match = re.search(r"[Ss]et-[Cc]ookie:\s*authenticator=\"?([^\";\n\r]+)\"?", headers_part)
+    match = re.search(
+        r"[Ss]et-[Cc]ookie:\s*authenticator=\"?([^\";\n\r]+)\"?", headers_part
+    )
     if not match:
         raise Exception("No authenticator cookie found in headers")
 

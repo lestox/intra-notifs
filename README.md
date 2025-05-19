@@ -16,8 +16,8 @@ Automated notifications from the ETNA Intranet system, delivered via Google Chat
 ### 1. Clone the repository
 
 ```sh
-git clone https://github.com/etna-student/intra-alerting
-cd intra-alerting
+git clone https://github.com/lestox/intra-notifs
+cd intra-notifs
 ```
 
 ### 2. Configure environment variables

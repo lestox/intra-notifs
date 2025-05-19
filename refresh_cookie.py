@@ -12,15 +12,9 @@ if not LOGIN or not PASSWORD:
     print("[ERROR] LOGIN or PASSWORD missing in .env")
     exit(1)
 
-headers = {
-    "Content-Type": "application/json",
-    "User-Agent": "curl/8.13.0"
-}
+headers = {"Content-Type": "application/json", "User-Agent": "curl/8.13.0"}
 
-payload = {
-    "login": LOGIN,
-    "password": PASSWORD
-}
+payload = {"login": LOGIN, "password": PASSWORD}
 
 try:
     response = requests.post(AUTH_URL, headers=headers, json=payload)

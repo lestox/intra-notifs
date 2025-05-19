@@ -1,8 +1,14 @@
-TODO.md
+# Python
+__pycache__/
+*.pyc
 
-venv
-__pycache__
+# Virtualenv
+venv/
+.venv/
 
+# Editor/IDE config
+.idea/
+
+# Environment
 .env
-.auth.env
-output
+.env.*

@@ -1,9 +1,11 @@
-import os
 import subprocess
+import os
 import sys
+
 
 def has_valid_cookie():
     return os.path.isfile(".auth.env") and os.path.getsize(".auth.env") > 0
+
 
 def try_refresh_cookie():
     print("[INFO] .auth.env is missing or empty — attempting to refresh...")
@@ -19,8 +21,9 @@ def try_refresh_cookie():
         print(f"[ERROR] Failed to run refresh_cookie.py: {e}")
         return False
 
+
 if not has_valid_cookie():
     if not try_refresh_cookie():
         sys.exit(1)
 
-subprocess.run(["python", "app/main.py"])
+subprocess.run(["python", "-m", "app"])
