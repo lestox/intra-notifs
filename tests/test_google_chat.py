@@ -1,6 +1,7 @@
 from unittest.mock import patch
 from app.services.google_chat import send_notification_to_google_chat
 
+
 @patch("app.services.google_chat.requests.post")
 def test_send_notification_success(mock_post):
     mock_post.return_value.status_code = 200

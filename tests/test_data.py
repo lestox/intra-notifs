@@ -1,6 +1,7 @@
 from unittest.mock import patch
 from app.services.data import get_data
 
+
 @patch("app.services.data.requests.get")
 def test_get_data_success(mock_get):
     mock_get.return_value.status_code = 200
