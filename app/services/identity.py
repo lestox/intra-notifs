@@ -1,5 +1,6 @@
 import subprocess
 import json
+import re
 from constants.auth import auth
 
 def authenticate():
@@ -8,35 +9,33 @@ def authenticate():
         "password": auth["password"]
     })
 
-    curl_cookie_cmd = [
-        "curl", "-s", "-c", "-", "-X", "POST", auth['url'] + "/identity",
+    curl_cmd = [
+        "curl", "-i", "-s", "-X", "POST", auth['url'] + "/identity",
         "-H", "Content-Type: application/json",
+        "-A", "curl/8.13.0",
         "-d", credentials_json
     ]
-
-    cookie_result = subprocess.check_output(curl_cookie_cmd, text=True)
-    cookie_line = next((line for line in cookie_result.splitlines() if "authenticator" in line), None)
-
-    if not cookie_line:
-        raise Exception("No authenticator cookie found")
-
-    cookie_parts = cookie_line.split()
-    cookie = f"{cookie_parts[-2]}={cookie_parts[-1]}"
-
-    curl_json_cmd = [
-        "curl", "-s", "-X", "POST", auth['url'] + "/identity",
-        "-H", "Content-Type: application/json",
-        "-d", credentials_json
-    ]
-
-    json_result = subprocess.check_output(curl_json_cmd, text=True)
 
     try:
-        data = json.loads(json_result)
-    except Exception:
-        raise Exception(f"Failed to parse JSON from response: {json_result}")
+        result = subprocess.check_output(curl_cmd, text=True)
+    except subprocess.CalledProcessError as e:
+        raise Exception(f"Curl command failed: {e.output}")
 
-    if 'login' in data and 'id' in data:
+    split_marker = "\r\n\r\n" if "\r\n\r\n" in result else "\n\n"
+    headers_part, body_part = result.split(split_marker, 1)
+
+    match = re.search(r"[Ss]et-[Cc]ookie:\s*authenticator=\"?([^\";\n\r]+)\"?", headers_part)
+    if not match:
+        raise Exception("No authenticator cookie found in headers")
+
+    cookie = f"authenticator={match.group(1)}"
+
+    try:
+        data = json.loads(body_part)
+    except Exception:
+        raise Exception(f"Failed to parse JSON body: {body_part}")
+
+    if "login" in data and "id" in data:
         return cookie, data
     else:
-        raise Exception(f"Authentication response invalid: {data}")
+        raise Exception(f"Authentication JSON invalid: {data}")
