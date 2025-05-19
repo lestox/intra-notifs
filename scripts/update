@@ -1,12 +1,10 @@
-#! /bin/sh
+#!/bin/sh
 
-docker stop intra-alerting
-docker rm intra-alerting
+docker stop intra-notifs
+docker rm intra-notifs
+docker rmi intra-notifs:python
 
-docker rmi intra-alerting:python
-docker build -t intra-alerting:python .
+docker build -t intra-notifs:python .
 
-# docker pull intra-alerting:python
-
-docker run -d --name intra-alerting intra-alerting:python
-docker logs intra-alerting
+docker run --restart=always -d --name intra-notifs intra-notifs:python
+docker logs -f intra-notifs
