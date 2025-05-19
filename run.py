@@ -1,6 +1,9 @@
 import os
 import subprocess
 import sys
+from dotenv import load_dotenv
+
+load_dotenv()
 
 REQUIRED_ENV_VARS = ["LOGIN", "PASSWORD"]
 

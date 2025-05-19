@@ -50,34 +50,35 @@ Fill in the values for:
 ### 4. Run locally
 
 ```bash
-python run.py
-```
-
-Or directly:
-
-```bash
-python -m app
+make run
 ```
 
 ---
 
-## 🧪 Running tests
+## 🧪 Running tests & checks
+
+Run all tests:
 
 ```bash
-pytest
+make test
 ```
 
-To lint and format your code:
+Check code style:
 
 ```bash
-ruff check .
-black .
+make lint
 ```
 
-Or to auto-fix:
+Auto-fix lint issues:
 
 ```bash
-ruff check . --fix
+make fix
+```
+
+Format the code:
+
+```bash
+make format
 ```
 
 ---
@@ -121,9 +122,10 @@ docker run --rm -it --env-file .env intra-notifs:dev
 
 - Python 3.11+
 - `black` for formatting
-- `ruff` for linting
+- `ruff` for linting and auto-fixes
 - `pytest` for testing
 - `Docker` for packaging
+- `Makefile` for automation
 
 ---
 
